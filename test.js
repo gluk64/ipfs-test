@@ -20,5 +20,10 @@ ipfs.once(`ready`, () => ipfs.id((err, peerInfo) => {
 
     room.on('message', (message) => console.log('message from ' + message.from + ': ' + message.data.toString()))
 
+    // now started to listen to room
+    room.on('subscribed', () => {
+      console.log('Now connected!')
+    })
+
     setInterval(() => room.broadcast('hey everyone!'), 2000)
 }))
