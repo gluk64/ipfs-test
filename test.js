@@ -18,6 +18,7 @@ ipfs.once(`ready`, () => ipfs.id((err, peerInfo) => {
     room.on('peer joined', (peer) => console.log('peer ' + peer + ' joined'))
     room.on('peer left', (peer) => console.log('peer ' + peer + ' left'))
 
+    room.on('message', (message) => console.log('message from ' + message.from + ': ' + message.data.toString()))
 
-
+    setInterval(() => room.broadcast('hey everyone!'), 2000)
 }))
