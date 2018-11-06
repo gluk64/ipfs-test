@@ -1,13 +1,9 @@
 'use strict'
 
 const IPFS = require('ipfs')
-const Room = require('ipfs-pubsub-room')
 
 const ipfs = new IPFS({
-    repo: 'ipfs/pubsub-demo/' + Math.random(),
-    EXPERIMENTAL: {
-        pubsub: true
-    },
+//    repo: 'ipfs/pubsub-demo/' + Math.random(),
     config: {
         Addresses: {
             Swarm: [
@@ -17,20 +13,15 @@ const ipfs = new IPFS({
     }
 })
 
-ipfs.once(`ready`, () => ipfs.id((err, peerInfo) => {
-    if (err) { throw err }
-    console.log(`IPFS node started and has ID ` + peerInfo.id)
+ipfs.once(`ready`, async () =>  {
 
-    const room = Room(ipfs, 'ipfs-pubsub-xp3rta')
-    room.on('peer joined', (peer) => console.log('peer ' + peer + ' joined'))
-    room.on('peer left', (peer) => console.log('peer ' + peer + ' left'))
+    // add data
+    const filesAdded = await ipfs.files.add(Buffer.from('Hello World 101'))
+    const hash = filesAdded[0].hash
+    console.log('Added file:', hash)
 
-    room.on('message', (message) => console.log('message from ' + message.from + ': ' + message.data.toString()))
+    // get data
+    const file = await ipfs.files.cat(hash)
+    console.log(file.toString('utf8'))
 
-    // now started to listen to room
-    room.on('subscribed', () => {
-      console.log('Now connected!')
-    })
-
-    setInterval(() => room.broadcast('hey everyone!'), 2000)
-}))
+})
