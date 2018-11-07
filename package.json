@@ -1,9 +1,13 @@
 {
     "dependencies": {
+        "bs58": "^4.0.1",
         "ipfs": "^0.32.3",
         "ipfs-pubsub-room": "^1.4.0"
     },
     "scripts": {
         "start": "node src/test.js"
+    },
+    "devDependencies": {
+        "base-58": "0.0.1"
     }
 }
