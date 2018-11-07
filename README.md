@@ -4,5 +4,10 @@ To try:
 
 ```
 npm install
-npm start
+
+# test file storage and retrieval
+npm run ipfs
+
+# test aes gcm encryption with MAC
+npm run cipher
 ```
